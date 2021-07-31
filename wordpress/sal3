@@ -1,1 +1,0 @@
-SELECT * FROM wp_users WHERE user_login = 'admin' LIMIT 1
