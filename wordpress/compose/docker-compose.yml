@@ -9,11 +9,9 @@ services:
   hostname: wordpress
   networks:
    wp:
+    ipv4_address: 192.168.50.2
   depends_on:
    - mysql
-  ports:
-  - "8080:80"
-  - "8043:443"
  mysql:
   build:
     context: build
@@ -25,6 +23,16 @@ services:
     ipv4_address: 192.168.50.100
   volumes:
    - fortimysql:/var/lib/mysql
+ hack:
+  build:
+    context: build
+    args:
+     ENVPATH: hack.env
+  hostname: hack
+  privileged: true
+  networks:
+   wp:
+    ipv4_address: 192.168.50.99
 networks:
   wp:
     driver: bridge

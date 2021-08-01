@@ -1,5 +1,5 @@
 PROJECT="forti"
-SERVICES=wordpress mysql
+SERVICES=wordpress mysql hack
 
 #Targets principales
 #install: vagrantup
