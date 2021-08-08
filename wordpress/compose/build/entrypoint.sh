@@ -4,6 +4,9 @@
 [ -d /var/lib/mysql ] && service mysql start
 [ -d /var/www/html ] && service apache2 start
 
+#Arrancamos ssh
+[ -f /etc/ssh/sshd_config ] && service ssh start
+
 #Uso exec para lanzar un proceso independiente de bucle infinito
 exec bash -c "while true;do sleep 10;done"
 
