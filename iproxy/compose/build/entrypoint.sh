@@ -7,6 +7,10 @@
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 
+#Arrancamos SimpleHTTPServer
+cd /ser8080 && python -m SimpleHTTPServer 8080 &
+cd /ser8081 && python -m SimpleHTTPServer 8081 &
+
 #Arrancamos nginx
 [ -f /etc/nginx/nginx.conf ] && /usr/sbin/nginx -g 'daemon on; master_process on;'
 
