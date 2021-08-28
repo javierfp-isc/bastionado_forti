@@ -14,6 +14,9 @@ cd /ser8081 && python -m SimpleHTTPServer 8081 &
 #Arrancamos nginx
 [ -f /etc/nginx/nginx.conf ] && /usr/sbin/nginx -g 'daemon on; master_process on;'
 
+#Arrancamos filebeat
+[ -f /etc/init.d/filebeat ] && /etc/init.d/filebeat start
+
 #Uso exec para lanzar un proceso independiente de bucle infinito
 exec bash -c "while true;do sleep 10;done"
 
