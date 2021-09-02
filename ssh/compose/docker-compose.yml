@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+#Services
+ ssh:
+  build:
+    context: build
+    args:
+     ENVPATH: ssh.env
+  hostname: ssh
+  privileged: true
+  networks:
+   forti_wp:
+    ipv4_address: 192.168.50.200
+  volumes:
+   - ssh:/etc/ssh
+networks:
+  forti_wp:
+    external: true
+volumes:
+ ssh:
