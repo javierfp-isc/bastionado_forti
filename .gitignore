@@ -1,2 +1,2 @@
-vagrant/.vagrant/
-vagrant/*.log
+zentyal/vagrant/.vagrant/
+zentyal/vagrant/*.log
