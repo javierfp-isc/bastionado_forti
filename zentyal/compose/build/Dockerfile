@@ -1,4 +1,5 @@
-FROM jrei/systemd-ubuntu:20.04
+#FROM jrei/systemd-ubuntu:20.04
+FROM debian:buster
 
 ENV TERM xterm
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

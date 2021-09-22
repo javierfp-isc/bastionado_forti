@@ -1,22 +1,16 @@
-PROJECT="forti"
-SERVICES=zentyal
+PROJECT="zentyal"
+SERVICES=debian
 
 #Targets principales
-install:
-	docker-compose -p ${PROJECT} -f compose/docker-compose.yml up -d
+install: vagrantup
 
-down:
-	docker-compose -p ${PROJECT} -f compose/docker-compose.yml stop
-	docker-compose -p ${PROJECT} -f compose/docker-compose.yml rm -f
+down: composedown vagrantdelete
 
-delete: down
-	for s in ${SERVICES};do docker rmi -f ${PROJECT}_$$s;done
+delete: composedelete vagrantdelete
 
-start:
-	docker-compose -p ${PROJECT} -f compose/docker-compose.yml start	
+start: vagrantstart
 
-stop:
-	docker-compose -p ${PROJECT} -f compose/docker-compose.yml stop
+stop: vagrantstop
 
 restart: stop start
 
@@ -29,5 +23,28 @@ info:
 ls:
 	docker-compose -p ${PROJECT} -f compose/docker-compose.yml ps
 
+#Requisitos
+vagrantup: composeup
+	cd vagrant && vagrant up
+composeup:	
+	docker-compose -p ${PROJECT} -f compose/docker-compose.yml up -d
+
+vagrantdelete:
+	cd vagrant && vagrant destroy -f
+composedelete:
+	docker-compose -p ${PROJECT} -f compose/docker-compose.yml down --rmi all -v
+
+composedown:
+	docker-compose -p ${PROJECT} -f compose/docker-compose.yml down
+
+vagrantstart: composestart
+	cd vagrant && vagrant up
+composestart:
+	docker-compose -p ${PROJECT} -f compose/docker-compose.yml start	
+
+vagrantstop: composestop
+	cd vagrant && vagrant halt
+composestop:
+	docker-compose -p ${PROJECT} -f compose/docker-compose.yml stop
 
 
