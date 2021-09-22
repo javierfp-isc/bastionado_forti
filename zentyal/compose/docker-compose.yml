@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+#Services
+ zentyal:
+  build:
+    context: build
+    args:
+     ENVPATH: zentyal.env
+  hostname: zentyal
+  privileged: true
+  tmpfs:
+   - /run
+   - /run/lock
+   - /tmp
+  volumes:
+   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+   - /lib/modules:/lib/modules
+  networks:
+   zentyal:
+    ipv4_address: 192.168.51.100
+networks:
+  zentyal:
+    driver: bridge
+    driver_opts:
+     com.docker.network.bridge.name: zentyal_forti
+    ipam:
+     config:
+       - subnet: 192.168.51.0/24
