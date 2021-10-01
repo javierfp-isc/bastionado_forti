@@ -1,0 +1,46 @@
+version: '3.5'
+services:
+#Services
+ backupcli:
+  build:
+    context: build
+    args:
+     ENVPATH: backupcli.env
+  hostname: backupcli
+  privileged: true
+  tmpfs:
+   - /run
+   - /run/lock
+   - /tmp
+  volumes:
+   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+   - /lib/modules:/lib/modules
+  networks:
+   net:
+    ipv4_address: 192.168.60.10
+ urbackup:
+  build:
+    context: build
+    args:
+     ENVPATH: urbackup.env
+  hostname: urbackup
+  privileged: true
+  tmpfs:
+   - /run
+   - /run/lock
+   - /tmp
+  volumes:
+   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+   - /lib/modules:/lib/modules
+  networks:
+   net:
+    ipv4_address: 192.168.60.100  
+networks:
+  net:
+    driver: bridge
+    driver_opts:
+     com.docker.network.bridge.name: backup_net
+    ipam:
+     config:
+       - subnet: 192.168.60.0/24
+

@@ -15,9 +15,13 @@ services:
 #  volumes:
 #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
 #   - /lib/modules:/lib/modules
+#  security_opt:
+#   - seccomp:unconfined
 #  networks:
-#   zentyal:
-#    ipv4_address: 192.168.51.100
+#   lan1:
+#    ipv4_address: 192.168.52.200
+#   lan2:
+#    ipv4_address: 172.101.10.200
  hostlan1:
   build:
     context: build
@@ -27,7 +31,8 @@ services:
   privileged: true
   networks:
    lan1:
-    ipv4_address: 192.168.52.2
+    ipv4_address: 172.101.10.2
+   zentyal:
  hostlan2:
   build:
     context: build
@@ -37,19 +42,38 @@ services:
   privileged: true
   networks:
    lan2:
-    ipv4_address: 172.101.10.2
+    ipv4_address: 172.102.10.2
 networks:
-  lan1:
+  zentyal:
     driver: bridge
     driver_opts:
-     com.docker.network.bridge.name: zentyal_lan1
+     com.docker.network.bridge.name: zentyal
     ipam:
      config:
        - subnet: 192.168.52.0/24
-  lan2:
-    driver: bridge
+  lan1:
+    driver: macvlan
     driver_opts:
-     com.docker.network.bridge.name: zentyal_lan2
+     parent: wlp0s20f3.101
     ipam:
      config:
        - subnet: 172.101.10.0/24
+#    driver: bridge
+#    driver_opts:
+#     com.docker.network.bridge.name: zentyal_lan1
+#    ipam:
+#     config:
+#       - subnet: 192.168.52.0/24
+  lan2:
+    driver: macvlan
+    driver_opts:
+     parent: wlp0s20f3.102
+    ipam:
+     config:
+       - subnet: 172.102.10.0/24
+#    driver: bridge
+#    driver_opts:
+#     com.docker.network.bridge.name: zentyal_lan2
+#    ipam:
+#     config:
+#       - subnet: 172.101.10.0/24
