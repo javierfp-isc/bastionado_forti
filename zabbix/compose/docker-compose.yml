@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+#Services
+ zabbix:
+  build:
+    context: build
+    args:
+     ENVPATH: zabbix.env
+  hostname: zabbix
+  networks:
+   zabbix:
+    ipv4_address: 192.168.62.100
+networks:
+  zabbix:
+    driver: bridge
+    driver_opts:
+     com.docker.network.bridge.name: zabbix_forti
+    ipam:
+     config:
+       - subnet: 192.168.62.0/24
+
