@@ -10,6 +10,15 @@ services:
   networks:
    zabbix:
     ipv4_address: 192.168.62.100
+ zabhost:
+  build:
+    context: build
+    args:
+     ENVPATH: zabhost.env
+  hostname: zabhost
+  networks:
+   zabbix:
+    ipv4_address: 192.168.62.10
 networks:
   zabbix:
     driver: bridge
