@@ -1,5 +1,5 @@
 PROJECT="forti"
-SERVICES=zabbix
+SERVICES=zabbix zabhost
 
 #Targets principales
 install:
