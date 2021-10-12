@@ -10,15 +10,23 @@ services:
   networks:
    zabbix:
     ipv4_address: 192.168.62.100
- zabhost:
+ zabapache:
   build:
     context: build
     args:
-     ENVPATH: zabhost.env
-  hostname: zabhost
+     ENVPATH: zabapache.env
+  hostname: zabapache
   networks:
    zabbix:
     #ipv4_address: 192.168.62.10
+ zabmysql:
+  build:
+    context: build
+    args:
+     ENVPATH: zabmysql.env
+  hostname: zabmysql
+  networks:
+   zabbix:
 networks:
   zabbix:
     driver: bridge

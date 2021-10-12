@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+#Services
+ icinga:
+  build:
+    context: build
+    args:
+     ENVPATH: icinga.env
+  hostname: icinga
+  networks:
+   icinga:
+    ipv4_address: 192.168.63.100
+networks:
+  icinga:
+    driver: bridge
+    driver_opts:
+     com.docker.network.bridge.name: icinga_forti
+    ipam:
+     config:
+       - subnet: 192.168.63.0/24
+
