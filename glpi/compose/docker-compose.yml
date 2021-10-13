@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+#Services
+ glpi:
+  build:
+    context: build
+    args:
+     ENVPATH: glpi.env
+  hostname: glpi
+  networks:
+   glpi:
+    ipv4_address: 192.168.64.100
+networks:
+  glpi:
+    driver: bridge
+    driver_opts:
+     com.docker.network.bridge.name: glpi_forti
+    ipam:
+     config:
+       - subnet: 192.168.64.0/24
+
