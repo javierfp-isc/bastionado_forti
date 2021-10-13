@@ -10,3 +10,7 @@
 * **wordpress**: CMS wordpress
 * **zentyal**: despliegue de zentyal (incompleto)
 
+## Instrucciones de uso
+
+[Instrucciones](https://github.com/javierfp-isc/bastionado)
+
