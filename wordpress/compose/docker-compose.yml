@@ -33,6 +33,8 @@ services:
     args:
      ENVPATH: hack.env
   hostname: hack
+  cap_add:
+  - ALL
   networks:
    wp:
     ipv4_address: 192.168.50.99
