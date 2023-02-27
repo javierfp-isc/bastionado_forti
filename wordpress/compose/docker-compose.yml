@@ -7,7 +7,6 @@ services:
     args:
      ENVPATH: wordpress.env
   hostname: wordpress
-  privileged: true
   networks:
    wp:
     ipv4_address: 192.168.50.2
@@ -18,8 +17,11 @@ services:
     context: build
     args:
      ENVPATH: mysql.env
+  environment:
+  - WPDB="wordpress_db"
+  - WPUSER="wordpress_user"
+  - WPPASS="abc123."
   hostname: mysql
-  privileged: true
   networks:
    wp:
     ipv4_address: 192.168.50.100
@@ -31,7 +33,6 @@ services:
     args:
      ENVPATH: hack.env
   hostname: hack
-  privileged: true
   networks:
    wp:
     ipv4_address: 192.168.50.99
