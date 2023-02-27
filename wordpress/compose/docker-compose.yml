@@ -18,9 +18,9 @@ services:
     args:
      ENVPATH: mysql.env
   environment:
-  - WPDB="wordpress_db"
-  - WPUSER="wordpress_user"
-  - WPPASS="abc123."
+  - WPDB=wordpress_db
+  - WPUSER=wordpress_user
+  - WPPASS=abc123.
   hostname: mysql
   networks:
    wp:
