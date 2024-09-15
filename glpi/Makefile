@@ -10,7 +10,7 @@ down:
 	docker compose -p ${PROJECT} -f compose/docker-compose.yml rm -f
 
 delete: down
-	for s in ${SERVICES};do docker rmi -f ${PROJECT}_$$s;done
+	for s in ${SERVICES};do docker rmi -f ${PROJECT}-$$s;done
 
 start:
 	docker compose -p ${PROJECT} -f compose/docker-compose.yml start	

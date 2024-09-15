@@ -1,9 +1,9 @@
-FROM debian:buster
+FROM debian:bookworm
 
 ENV TERM xterm
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-LABEL distribucion="Debian 10"
+LABEL distribucion="Debian 12"
 LABEL maintainer=javierfp@iessanclemente.net
 
 #Argumento tomado del docker-compose.yml para seleccionar el archivo .env->envfile
@@ -19,13 +19,10 @@ COPY entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
 #Instalamos paquetes de utilidades del envfile
-RUN /bin/bash -c 'source /tmp/envfile; apt update; apt install -y $PACKS'
+RUN /bin/bash -c 'source /tmp/envfile; apt update; apt install -y $PACKS; apt clean'
 
 #Ejecutamos lista de comandos del envfile
 RUN /bin/bash -c 'source /tmp/envfile;IFS=',';for command in $COMMANDS;do sh -c $command;done'
-
-#Limpiando
-RUN apt clean
 
 #Comando para arrancar ssh y entrar en bucle de espera
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
