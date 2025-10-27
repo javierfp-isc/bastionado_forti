@@ -1,10 +1,30 @@
 services:
-#Services
- glpi:
-  build:
-    context: build
-    args:
-     ENVPATH: glpi.env
-  hostname: glpi
-  ports:
-   - "8000:80"
+  glpi:
+    image: "glpi/glpi:latest"
+    restart: "unless-stopped"
+    env_file: "./build/glpi.env" 
+    volumes:
+      - "./storage/glpi:/var/glpi:rw"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:80"
+
+  db:
+    image: "mysql"
+    restart: "unless-stopped"
+    volumes:
+       - "./storage/mysql:/var/lib/mysql"
+    env_file: "./build/glpi.env" 
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    expose:
+      - "3306"
+
