@@ -1,10 +1,19 @@
 services:
 #Services
  glpi:
-  build:
-    context: build
-    args:
-     ENVPATH: glpi.env
+  image: glpi/glpi:11.0.1
+  env_file: "./build/glpi.env"   
   hostname: glpi
+  depends_on:
+    - db
   ports:
    - "8000:80"
+  command: >
+    bash -c "sleep 10 && apache2-foreground"
+ db:
+  image: "mysql"
+  env_file: "./build/glpi.env" 
+  environment:
+    MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+  expose:
+    - "3306"
