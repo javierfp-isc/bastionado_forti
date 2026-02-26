@@ -6,6 +6,9 @@
 #Arranque de mariadb y creación de BBDD
 if [ -d /var/lib/mysql ]
 then
+	if [ "$(stat -c '%U:%G' /var/lib/mysql)" != "mysql:mysql" ]; then
+    	chown -R mysql:mysql /var/lib/mysql
+	fi
 	service mariadb start
 	#Crea la base de datos si no existe
 	mysql -uroot -e "CREATE DATABASE IF NOT EXISTS $WPDB"
