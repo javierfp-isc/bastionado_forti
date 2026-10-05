@@ -1,0 +1,72 @@
+services:
+
+  # ============================================================
+  # WAF: Nginx + Coraza + OWASP CRS
+  # ============================================================
+  waf:
+    image: ghcr.io/coreruleset/coraza-crs:nginx
+    container_name: coraza-nginx
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      # IMPORTANTE: host:puerto, no http://...
+      BACKEND: dvwa:80
+
+      # Coraza
+      CORAZA_RULE_ENGINE: On
+      CORAZA_REQ_BODY_ACCESS: On
+
+      # Audit log visible con docker logs
+      CORAZA_AUDIT_ENGINE: RelevantOnly
+      CORAZA_AUDIT_LOG: /dev/stdout
+      CORAZA_AUDIT_LOG_FORMAT: JSON
+
+      # CRS
+      PARANOIA: 1
+      BLOCKING_PARANOIA: 1
+      ANOMALY_INBOUND: 5
+      ANOMALY_OUTBOUND: 4
+
+    depends_on:
+      - dvwa
+
+  # ============================================================
+  # DVWA
+  # ============================================================
+  dvwa:
+    image: ghcr.io/digininja/dvwa:latest
+    container_name: dvwa
+
+    environment:
+      DB_SERVER: db
+      DB_DATABASE: dvwa
+      DB_USER: dvwa
+      DB_PASSWORD: p@ssw0rd
+      DB_PORT: 3306
+
+    depends_on:
+      - db
+
+  # ============================================================
+  # MariaDB
+  # ============================================================
+  db:
+    image: mariadb:10
+    container_name: dvwa-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: dvwa
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: p@ssw0rd
+
+    volumes:
+      - dvwa-db:/var/lib/mysql
+
+# ==============================================================
+# Persistencia
+# ==============================================================
+volumes:
+  dvwa-db:
