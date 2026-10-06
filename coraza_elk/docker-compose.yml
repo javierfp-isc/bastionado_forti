@@ -30,7 +30,7 @@ services:
       ANOMALY_OUTBOUND: 4
 
     volumes:
-      - coraza-logs:/var/log/coraza
+      - ./coraza-logs:/var/log/coraza
 
     depends_on:
       - dvwa
@@ -112,7 +112,7 @@ services:
       - LS_JAVA_OPTS=-Xms256m -Xmx512m
 
     volumes:
-      - coraza-logs:/var/log/coraza:ro
+      - ./coraza-logs:/var/log/coraza:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
 
     depends_on:
@@ -144,7 +144,4 @@ services:
 volumes:
 
   dvwa-db:
-
-  coraza-logs:
-
   elasticsearch-data:
