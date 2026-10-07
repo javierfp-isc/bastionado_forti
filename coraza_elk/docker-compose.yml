@@ -5,7 +5,7 @@ services:
   # ============================================================
   waf:
     image: ghcr.io/coreruleset/coraza-crs:nginx
-    container_name: coraza-nginx
+    container_name: coraza-elk-nginx
 
     ports:
       - "8080:8080"
@@ -19,7 +19,7 @@ services:
       CORAZA_REQ_BODY_ACCESS: On
 
       # Audit log
-      CORAZA_AUDIT_ENGINE: RelevantOnly
+      CORAZA_AUDIT_ENGINE: On  
       CORAZA_AUDIT_LOG: /var/log/coraza/audit.json
       CORAZA_AUDIT_LOG_FORMAT: JSON
 
@@ -41,7 +41,7 @@ services:
   # ============================================================
   dvwa:
     image: ghcr.io/digininja/dvwa:latest
-    container_name: dvwa
+    container_name: dvwa-elk
 
     environment:
       DB_SERVER: db
@@ -59,7 +59,7 @@ services:
   # ============================================================
   db:
     image: mariadb:10
-    container_name: dvwa-db
+    container_name: dvwa-elk-db
 
     environment:
       MYSQL_ROOT_PASSWORD: dvwa

@@ -15,7 +15,7 @@ services:
       BACKEND: dvwa:80
 
       # Coraza
-      CORAZA_RULE_ENGINE: On
+      CORAZA_RULE_ENGINE: DetectionOnly
       CORAZA_REQ_BODY_ACCESS: On
 
       # Audit log visible con docker logs
