@@ -1,0 +1,53 @@
+
+services:
+  nginx-waf:
+    image: owasp/modsecurity-crs:4.25-nginx-lts
+    container_name: nginx-waf
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      BACKEND: "http://dvwa:80"
+      SERVER_NAME: "localhost"
+      # Fase 1: proxy inverso sin inspección WAF
+      MODSEC_RULE_ENGINE: "Off"
+      # Parámetros iniciales de OWASP CRS
+      BLOCKING_PARANOIA: "1"
+      DETECTION_PARANOIA: "1"
+      ANOMALY_INBOUND: "5"
+      ANOMALY_OUTBOUND: "4"
+
+      # Redirección TLS
+      NGINX_ALWAYS_TLS_REDIRECT: "off"
+      SSL_CERT_FILE: "/etc/nginx/conf/server.crt"
+      SSL_CERT_KEY_FILE: "/etc/nginx/conf/server.key"
+    depends_on:
+      - dvwa
+    volumes:
+      # Configuración personalizada de Nginx.
+      # La imagen procesa la plantilla al arrancar.
+      - ./conf/default.conf.template:/etc/nginx/templates/conf.d/default.conf.template:ro
+      # Ajustes y exclusiones de reglas CRS.
+      - ./modsecurity/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf:ro
+      - ./modsecurity/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf:ro
+      # Certificado y clave privada para HTTPS.
+      - ./certs/server.crt:/etc/nginx/conf/server.crt:ro
+      - ./certs/server.key:/etc/nginx/conf/server.key:ro
+
+    networks:
+      - frontend
+      - backend
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: dvwa-waf
+    expose:
+      - "80"
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+    internal: true
+
