@@ -13,8 +13,8 @@ map $http_upgrade $connection_upgrade {
 server {
     listen ${PORT} default_server;
     server_name ${SERVER_NAME};
-
     set $always_redirect ${NGINX_ALWAYS_TLS_REDIRECT};
+    client_max_body_size 0;
 
     PROXY_SSL_CONFIG
 
@@ -40,6 +40,7 @@ server {
     HTTP3_CONFIG
 
     server_name ${SERVER_NAME};
+    client_max_body_size 0;
 
     ssl_certificate     ${SSL_CERT_FILE};
     ssl_certificate_key ${SSL_CERT_KEY_FILE};
