@@ -18,8 +18,7 @@ server {
 
     PROXY_SSL_CONFIG
 
-    location / {
-        client_max_body_size 0;
+    location / {        
 
         if ($always_redirect = on) {
             return 301 https://$host$request_uri;
@@ -63,8 +62,7 @@ server {
 
     PROXY_SSL_CONFIG
 
-    location / {
-        client_max_body_size 0;
+    location / {        
 
         include includes/cors.conf;
         include includes/proxy_backend.conf;
